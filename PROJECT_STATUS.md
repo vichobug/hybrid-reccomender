@@ -20,7 +20,7 @@ MKTG 4604 · Fall 2026 · Group build
 
 **How to run:** Google Colab → upload the notebook and the 3 data CSVs (folder icon on the left) → *Runtime → Run all*. The grading sheets are regenerated on every run (download them from the folder panel: right-click → Download).
 
-> ⚠️ The 4 grading CSVs currently use the **placeholder readers**. If the readers change (see To-Do 1), re-run the notebook and send the **new** CSVs. Don't grade the old ones.
+> ⚠️ The 4 grading CSVs use **Elena and Frank (real) plus 8 placeholder readers**. If the readers change (see To-Do 1), re-run the notebook and send the **new** CSVs. Don't grade the old ones.
 
 ---
 
@@ -31,8 +31,8 @@ MKTG 4604 · Fall 2026 · Group build
 | Where in the notebook | What was added |
 |---|---|
 | **Part 1**, after "For Paragraph A" | A **draft of Paragraph A** in bullets: the 3 groups described in marketing terms, and what they really separate on (one bestseller and the zeros, not age or taste). |
-| **Part 4**, `people` list | **10 placeholder readers** (marked `PLACEHOLDER`): 5 typical readers (Priya, Daniel, Elena, Viktor, Grace) + 5 traps (Marcus, Sam, Leo, Linda, Omar). All 30 titles match the catalogue. |
-| **Part 4**, "Judge the baseline" cell | `JUDGE = ['Priya', 'Daniel', 'Marcus', 'Sam', 'Leo']` and a `judge_readers()` function. It runs the 5 readers (as known readers and as strangers), prints their lists, counts distinct titles, and saves a grading CSV. |
+| **Part 4**, `people` list | **10 test readers**: 5 typical (Priya, Daniel, Elena, Viktor, Grace) + 5 traps (Frank, Sam, Leo, Linda, Omar). **Elena and Frank are real readers from an individual spec; the other 8 are placeholders.** All 30 titles match the catalogue. |
+| **Part 4**, "Judge the baseline" cell | `JUDGE = ['Priya', 'Daniel', 'Frank', 'Sam', 'Leo']` and a `judge_readers()` function. It runs the 5 readers (as known readers and as strangers), prints their lists, counts distinct titles, and saves a grading CSV. |
 | **Part 5**, Change 1 | **Drop already-rated and duplicate titles** (rewrites `recommend()`). |
 | **Part 5**, Change 2 | **Bayesian average ranking** (rewrites `candidate_list()`, `M = 5`). |
 | **Part 5**, Change 3 | **Ignore zero ratings** in the averages (rewrites `candidate_list()`, keeps the Bayesian average). |
@@ -40,34 +40,36 @@ MKTG 4604 · Fall 2026 · Group build
 
 The changes stack: Change 2 keeps Change 1, and Change 3 keeps Changes 1 and 2. The baseline code (Parts 1–3) was not edited.
 
-### What the placeholder readers are testing
+### What the test readers are testing
 
 | Reader | Age | Type | What it tests |
 |---|---|---|---|
 | Priya | 19 | typical | Fantasy fan: a "should be easy" case |
 | Daniel | 22 | typical | Dystopia fan |
-| Elena | 34 | typical | Romance classics |
+| Elena | 47 | typical (**real**) | Literary/historical fiction (*Poisonwood Bible* 9, *Memoirs of a Geisha* 8, *A Tree Grows in Brooklyn* 7) |
 | Viktor | 47 | typical | Russian literature |
 | Grace | 41 | typical | Contemporary historical fiction |
-| **Marcus** | 68 | **trap** | Loves picture books; age suggests otherwise |
+| **Frank** | 68 | **trap (real)** | An adult who rates only picture books (*Goodnight Moon* 10, *Cat in the Hat* 9, *Where the Wild Things Are* 8). Tests whether taste can outweigh age. |
 | **Sam** | 29 | **trap** | Favourite (*A Brief History of Time*) is mislabelled "Historical Fiction" |
 | **Leo** | 13 | **trap** | Harry Potter fan; *Goblet of Fire* appears twice in the catalogue |
 | **Linda** | 55 | **trap** | Only knows the bestseller everyone rated |
 | **Omar** | 36 | **trap** | Picky; highest rating is only 5/10 |
 
-**Judged:** Priya, Daniel, Marcus, Sam, Leo (one per member, three traps).
+**Judged:** Priya, Daniel, Frank, Sam, Leo (three traps).
+
+> From the individual spec: **baseline total 4 S, 3 O, 3 W** (10 letters, i.e. one reader). Confirm which reader that was graded for, and check it against the current `grading_baseline.csv`. The list in the notebook may differ from what was graded individually.
 
 ### Results so far
 
 | Version | Distinct titles (of 50) | Main observation |
 |---|---|---|
-| Baseline | 23 | Known reader and stranger get the **same 10 books** (10 of 10, every reader). 4 already-rated books shown. Leo's #1 is a duplicate of his own favourite. |
-| Change 1: drop already-rated and duplicates | 20 | Already-rated books 4 → 0. Some replacements are poor (Leo, 13, gets *The Stand*). |
-| Change 2: Bayesian average | 22 | Better where there is real data (Priya gets *Lord of the Rings* #1; Daniel gets adult fiction). |
-| Change 3: ignore zeros | 21 | 63% of ratings in our readers' group were 0. Real favourites rise (*Giving Tree* 5.6 → 9.8), but single-vote 10s creep back in. |
+| Baseline | 22 | Known reader and stranger get the **same 10 books** (10 of 10, every reader). 3 already-rated books shown (Frank gets *The Cat in the Hat*; Daniel gets *Brave New World* and *Fahrenheit 451*). Leo's #1 is a duplicate of his own favourite. |
+| Change 1: drop already-rated and duplicates | 20 | Already-rated books 3 → 0. Some replacements are poor (Leo, 13, gets *The Stand*; Daniel gets *Where the Sidewalk Ends*). |
+| Change 2: Bayesian average | 20 | Frank gets well-loved picture books (*Giving Tree*, *Green Eggs and Ham*); Daniel gets adult fiction (*Atlas Shrugged*, *Ender's Game*). Priya's #1 got worse (*Where the Wild Things Are*). |
+| Change 3: ignore zeros | 20 | 62% of ratings in our readers' group were 0. Real favourites rise (*Giving Tree* 5.6 → 9.8). Priya gets *Lord of the Rings* #1; Daniel gets *Animal Farm*, *Brothers Karamazov*. Single-vote 10s creep back in. |
 | S / O / W counts | **not yet graded** | See To-Do 2 |
 
-Problems none of the changes fixed: 9 of the 10 readers land in one group; known and stranger lists stay identical; Sam's list stays wrong because of the mislabelled genre.
+Problems none of the changes fixed: 9 of the 10 readers land in one group; known and stranger lists stay 8–10 of 10 the same (the differences only come from removing already-rated books); Sam's list stays wrong because of the mislabelled genre.
 
 ---
 
@@ -76,7 +78,8 @@ Problems none of the changes fixed: 9 of the 10 readers land in one group; known
 Do these in order. Steps 1–3 block everything after them.
 
 ### To-Do 1: Decide on the test readers (whole group)
-- [ ] Each member sends **2 readers** from their individual spec: `name, age, 3 books + rating (1–10)`, and whether it's a trap.
+- [x] Elena and Frank (from one member's spec) are entered.
+- [ ] Each other member sends **2 readers** from their individual spec: `name, age, 3 books + rating (1–10)`, and whether it's a trap.
 - [ ] Titles must be copied **exactly** from the `title` column of `book_data_sample_ed.csv` (lower case).
 - [ ] **Coder:** replace the placeholder `people` list in Part 4, update `JUDGE` (5 names: one per member, at least 2 traps), then **Run all**. Fix any "not in the catalogue" warnings.
 - [ ] If the group decides to keep the placeholders instead, say so, and make sure that's allowed by the assignment (the individual specs were meant to invent the readers).
@@ -106,9 +109,9 @@ Do these in order. Steps 1–3 block everything after them.
 - [ ] **Paragraph A:** rewrite the Part 1 draft bullets into prose. Re-check every number against the notebook output from the **final run**.
 - [ ] **Paragraph B:** the baseline verdict table, then each change: what it was, why we tried it (link it to an audit finding), what happened. Good evidence:
   - known vs. stranger lists were identical (10 of 10)
-  - already-rated books shown (4 → 0 after Change 1)
+  - already-rated books shown (3 → 0 after Change 1)
   - Leo's duplicate #1 pick
-  - 63% of ratings are zeros
+  - 62% of ratings are zeros
 - [ ] **Paragraph C:** fill the `[brackets]` in the notebook draft (S/O/W counts, keep/reject decisions), then rewrite it in your own words.
 - [ ] **Trace (end of the PDF, 3–6 rows):** fill the "what we changed" column. **Each member checks at least one row.** The brief says the AI can't be the only one who read it.
 
