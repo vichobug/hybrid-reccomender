@@ -132,3 +132,24 @@ Do these in order. Steps 1–3 block everything after them.
 | **Coder** | To-Do 1 (enter readers, run), To-Do 3 optional Change 4, To-Do 4 (tables), To-Do 6 (notebook runs cleanly) |
 | **Writers** | To-Do 1 (send readers), To-Do 2 (grading), To-Do 5 (Paragraphs A, B, C and the trace) |
 | **Everyone** | To-Do 3 (keep/reject decisions), checking one trace row each, final review |
+
+---
+
+## 5. Demo at Session 19 (Thu 12 Nov Sec 02 · Fri 13 Nov Sec 01)
+
+**Format:** 2 minutes. The instructor runs one of our readers on the baseline, then on the final version, and we explain why the results changed. **Bring the notebook executed from the top so both outputs are on screen.**
+
+### Before class
+- [ ] In Colab: upload the notebook + 3 CSVs → *Runtime → Restart and run all*. Check there are no red errors.
+- [ ] Scroll to **"Demo (Session 19)"** at the end. `compare('Frank')` prints baseline and final side by side, then why each book left or joined.
+- [ ] If the group rejects a change, set `FINAL` in that cell (e.g. `FINAL = 'change-2: bayesian average ranking'`) and re-run it.
+- [ ] If the instructor picks a different reader: `compare('Daniel')`, `compare('Priya')`, etc. work for any of the 10.
+
+### Two-minute script (Frank)
+1. **Who he is (15 s).** Frank is 68 and rates only picture books: *Goodnight Moon* 10, *The Cat in the Hat* 9, *Where the Wild Things Are* 8. He's a trap: does taste outweigh age?
+2. **Baseline (30 s).** It recommends *The Cat in the Hat*, which he already rated. *Goblet of Fire* appears **twice** under two titles. *Anne of Green Gables*, *Alice* and *Little Women* are there because the candidates were ranked by raw averages, where one reader's 10 beats twenty readers' 9s. It's also exactly the list he'd get as a stranger known only by age (10 of 10 the same).
+3. **What changed (45 s).**
+   - **Change 1** removed the book he already rated and the duplicate title.
+   - **Change 2** (Bayesian average) stopped books with one or two ratings from topping the candidate list.
+   - **Change 3** (ignoring zeros) mattered most: 62% of ratings in his group were 0, which means "read, not rated", not "hated". *The Giving Tree* went from 5.6 to 9.8 and *Green Eggs and Ham* from 4.8 to 9.1, so both now reach his list, with 19–20 real ratings behind them.
+4. **What's still wrong (30 s).** *Where the Sidewalk Ends* is still #1 on a single rating, and *Harry Potter*, *Lord of the Rings* and *The Kite Runner* fill the bottom. The group step still isn't personal: 9 of our 10 readers landed in the same group, and the strangers-by-age problem is unsolved.
